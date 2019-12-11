@@ -1,0 +1,32 @@
+How much time is being spent on garbage collection?
+  Open the build scan link in your console and click "Performance"
+  Under the "Build" heading, the answer is next to "Total Garbage Collection Time".
+
+  e.g.: https://enterprise-training.gradle.com/s/6nijnwyevf2do/performance/build#garbage-collection
+
+What is the peak memory usage?
+  On the "Performance" tab, under the "Build" heading just below "Total Garbage Collection Time" peak usage of the
+  JVM's different memory spaces are shown.
+
+  e.g.: https://enterprise-training.gradle.com/s/6nijnwyevf2do/performance/build#memory
+
+Fix the issue degrading build performance:
+
+  The issue degrading build performance is an extremely low memory limit set within the .mvn/jvm.config file
+  Setting a higher limit, or removing the line entirely will allow maven to use a sufficient amount of memory
+
+What version of the maven surefire plugin was used?
+
+  See https://enterprise-training.gradle.com/s/76cvqqo7xvtio/plugins#w2jnhnetvm3bc
+
+How much time was spent initializing the build and discovering the projects?
+
+  See https://enterprise-training.gradle.com/s/76cvqqo7xvtio/performance/build#initialization
+
+Was there any memory pressure while running the build?
+
+  See https://enterprise-training.gradle.com/s/76cvqqo7xvtio/performance/build#total-garbage-collection-time
+
+What version of the java runtime was used during this build?
+
+  See https://enterprise-training.gradle.com/s/76cvqqo7xvtio#infrastructure

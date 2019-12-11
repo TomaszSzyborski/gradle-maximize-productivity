@@ -1,0 +1,25 @@
+plugins {
+    id("com.gradle.enterprise").version("3.1")
+}
+
+rootProject.name = "02-extending-build-scans"
+
+gradleEnterprise {
+    buildScan {
+        server = "https://enterprise-training.gradle.com"
+        publishAlways()
+
+        tag "lab02"
+
+        def ci = System.getenv("CI")
+        if (ci) {
+            tag "CI"
+        } else {
+            tag "Local"
+        }
+
+        value "Build number", "221"
+        value "Another value", "foo"
+        link "Gradle Github", "https://github.com/gradle"
+    }
+}

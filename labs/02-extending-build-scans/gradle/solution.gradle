@@ -1,0 +1,23 @@
+plugins {
+    id "com.gradle.build-scan" version "2.4.2"
+    id "java"
+}
+
+buildScan {
+    server = "https://enterprise-training.gradle.com"
+    publishAlways()
+    tag "lab02"
+}
+
+def local = System.getenv("CI") == null
+def openScan = false
+buildScan {
+    buildFinished { result ->
+        openScan = result.failure
+    }
+    buildScanPublished { scan ->
+        if (local && openScan) {
+            "open $scan.buildScanUri".execute()
+        }
+    }
+}

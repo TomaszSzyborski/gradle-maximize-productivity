@@ -1,0 +1,37 @@
+<gradleEnterprise
+  xmlns="https://www.gradle.com/gradle-enterprise-maven" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://www.gradle.com/gradle-enterprise-maven/ https://www.gradle.com/schema/gradle-enterprise-maven.xsd">
+  <server>
+    <url>https://enterprise-training.gradle.com</url>
+  </server>
+  <buildScan>
+    <publish>ALWAYS</publish>
+    <tags>
+      <tag>lab02</tag>
+    </tags>
+    <values>
+      <value>
+        <name>Build number</name>
+        <value>221</value>
+      </value>
+      <value>
+        <name>Another value</name>
+        <value>foo</value>
+      </value>
+    </values>
+    <links>
+      <link>
+        <name>Gradle Github</name>
+        <url>https://github.com/gradle</url>
+      </link>
+    </links>
+  </buildScan>
+  <buildCache>
+    <local>
+      <enabled>false</enabled>
+    </local>
+    <remote>
+      <enabled>false</enabled>
+    </remote>
+  </buildCache>
+</gradleEnterprise>

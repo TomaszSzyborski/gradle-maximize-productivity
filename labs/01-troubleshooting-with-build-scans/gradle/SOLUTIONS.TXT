@@ -1,0 +1,50 @@
+How much time is being spent on garbage collection?
+  Open the build scan link in your console and click "Performance"
+  Under the "Build" heading, the answer is next to "Total Garbage Collection Time".
+
+  e.g.: https://enterprise-training.gradle.com/s/6nijnwyevf2do/performance/build#garbage-collection
+
+What is the peak memory usage?
+  On the "Performance" tab, under the "Build" heading just below "Total Garbage Collection Time" peak usage of the
+  JVM's different memory spaces are shown.
+
+  e.g.: https://enterprise-training.gradle.com/s/6nijnwyevf2do/performance/build#memory
+
+Fix the issue degrading build performance:
+
+  The issue degrading build performance is an extremely low memory limit set within the gradle.properties file
+  Setting a higher limit, or removing the line entirely will allow gradle to use a sufficient amount of memory
+
+Why is the root project compiling against slf4j-api version 1.7.25 but running with version 1.7.28?
+
+  Look at the dependencies tab and either expand the root project's dependencies or search for slf4j-api
+  e.g.: https://enterprise-training.gradle.com/s/6nijnwyevf2do/dependencies?focusedDependency=WzAsMiwxNyxbMCwyLFsxN11dXQ&focusedDependencyView=dependents&toggled=W1swXSxbMCwyXV0
+  While the root project depends on version 1.7.25, it depends on the "custom-logger" project which depends upon version 1.7.28
+  When encountering a version conflict, Gradle's default policy is "newest wins" so 1.7.28 is selected
+
+  In the specific case of slf4j-api, it doesn't need to be on the runtime classpath at all, so it could be moved to the
+  "compileOnly" configuration.
+
+Why is does the console log contain messages about multiple slf4j bindings?
+
+  The root project depends upon slf4j-simple and the custom-logger project depends upon logback-classic.
+  These both implement the slf4j api and both end up on the test runtime classpath. slf4j notices this and complains
+
+Fix the dependency issues discovered in step 5 so that only a single version of slf4j is used
+
+  One solution is to change the custom-logger project to also use slf4j-simple.
+  In addition, you can guard against any future changelist accidentally introducing logback-classic as a dependency by
+  creating a dependency substitution rule applying to all projects that forces slf4j-simple to be used instead of
+  logback-classic.
+
+  This substitution rule can be set in the root project's build.gradle with this code snippet:
+  allprojects {
+      configurations.all {
+          resolutionStrategy.dependencySubstitution {
+              substitute module("ch.qos.logback:logback-classic") with module("org.slf4j:slf4j-simple:1.7.25")
+          }
+      }
+  }
+
+  For more information on how gradle handles dependency resolution and how you can customize this process, see:
+  https://docs.gradle.org/current/userguide/customizing_dependency_resolution_behavior.html
